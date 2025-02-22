@@ -1,4 +1,4 @@
-package com.example.springsecurityjwt.service;
+package com.example.springsecurityjwt.services;
 
 public interface OurUsersDetailsService {
 }

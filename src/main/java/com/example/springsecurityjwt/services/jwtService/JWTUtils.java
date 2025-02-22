@@ -1,10 +1,8 @@
-package com.example.springsecurityjwt.services;
+package com.example.springsecurityjwt.services.jwtService;
 
-import io.jsonwebtoken.Claims;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.HashMap;
-import java.util.function.Function;
 
 public interface JWTUtils {
     String generateToken(UserDetails userDetails);

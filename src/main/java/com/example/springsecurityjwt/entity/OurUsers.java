@@ -1,16 +1,17 @@
 package com.example.springsecurityjwt.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Table(name = "ourusers")
+@Data
 public class OurUsers implements UserDetails {
 
     @Id
@@ -21,8 +22,6 @@ public class OurUsers implements UserDetails {
     private String role;
     private Boolean nonLock = true;
     private int counter = 0;
-
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -59,74 +58,7 @@ public class OurUsers implements UserDetails {
         return true;
     }
 
-    public int getCounter() {
-        return counter;
+    public void incrementCounter(){
+        counter++;
     }
-
-    public void setCounter(int counter) {
-        this.counter = counter;
-    }
-
-    public void incrementCounter() {counter++;}
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public Boolean getNonLock() {
-        return nonLock;
-    }
-
-    public void setNonLock(Boolean nonLock) {
-        this.nonLock = nonLock;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        OurUsers ourUsers = (OurUsers) o;
-        return Objects.equals(id, ourUsers.id) && Objects.equals(email, ourUsers.email)
-                && Objects.equals(password, ourUsers.password) && Objects.equals(role, ourUsers.role);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, email, password, role);
-    }
-
-    @Override
-    public String toString() {
-        return "OurUsers{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", role='" + role + '\'' +
-                '}';
-    }
-
 }

@@ -1,11 +1,12 @@
 package com.example.springsecurityjwt.config;
 
-import com.example.springsecurityjwt.service.JWTUtilsImpl;
-import com.example.springsecurityjwt.service.OurUsersDetailsServiceImpl;
+import com.example.springsecurityjwt.services.jwtService.JWTUtilsImpl;
+import com.example.springsecurityjwt.services.userDetailsService.OurUsersDetailsServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
@@ -19,15 +20,11 @@ import org.springframework.web.server.ResponseStatusException;
 import java.io.IOException;
 
 @Component
+@AllArgsConstructor
 public class JWTAuthFilter extends OncePerRequestFilter {
 
     private final JWTUtilsImpl jwtUtils;
     private final OurUsersDetailsServiceImpl service;
-
-    public JWTAuthFilter(JWTUtilsImpl jwtUtils, OurUsersDetailsServiceImpl service) {
-        this.jwtUtils = jwtUtils;
-        this.service = service;
-    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,

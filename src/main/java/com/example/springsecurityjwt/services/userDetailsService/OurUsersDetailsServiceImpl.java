@@ -1,19 +1,17 @@
-package com.example.springsecurityjwt.services;
+package com.example.springsecurityjwt.services.userDetailsService;
 
 import com.example.springsecurityjwt.repository.UserRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class OurUsersDetailsServiceImpl implements UserDetailsService {
+@AllArgsConstructor
+public class OurUsersDetailsServiceImpl implements UserDetailsService,OurUsersDetailsService {
 
     private final UserRepository repository;
-
-    public OurUsersDetailsServiceImpl(UserRepository repository) {
-        this.repository = repository;
-    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

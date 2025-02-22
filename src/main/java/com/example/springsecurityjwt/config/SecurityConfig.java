@@ -1,6 +1,6 @@
 package com.example.springsecurityjwt.config;
 
-import com.example.springsecurityjwt.service.OurUsersDetailsServiceImpl;
+import com.example.springsecurityjwt.services.userDetailsService.OurUsersDetailsServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,18 +19,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
+@AllArgsConstructor
 public class SecurityConfig {
+
     private final OurUsersDetailsServiceImpl ourUsersDetailsService;
 
     private final JWTAuthFilter jwtAuthFilter;
+
     private final LoggingFilter loggingFilter;
 
-    public SecurityConfig(OurUsersDetailsServiceImpl ourUsersDetailsService, JWTAuthFilter jwtAuthFilter,
-                          LoggingFilter loggingFilter) {
-        this.ourUsersDetailsService = ourUsersDetailsService;
-        this.jwtAuthFilter = jwtAuthFilter;
-        this.loggingFilter = loggingFilter;
-    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {

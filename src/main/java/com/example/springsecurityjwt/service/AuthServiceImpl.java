@@ -1,4 +1,4 @@
-package com.example.springsecurityjwt.service;
+package com.example.springsecurityjwt.services;
 
 import com.example.springsecurityjwt.entity.OurUsers;
 import com.example.springsecurityjwt.models.RequestModel;

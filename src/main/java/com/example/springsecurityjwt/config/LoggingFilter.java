@@ -6,6 +6,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -16,14 +17,11 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Enumeration;
 
+@AllArgsConstructor
 @Component
 public class LoggingFilter extends OncePerRequestFilter {
-    LogRepository logRepository;
+    private final LogRepository logRepository;
     private static final Logger logger = LoggerFactory.getLogger(LoggingFilter.class);
-
-    public LoggingFilter(LogRepository logRepository) {
-        this.logRepository = logRepository;
-    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
