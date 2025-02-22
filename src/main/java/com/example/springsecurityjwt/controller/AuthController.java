@@ -1,6 +1,5 @@
 package com.example.springsecurityjwt.controller;
 
-
 import com.example.springsecurityjwt.models.RequestModel;
 import com.example.springsecurityjwt.service.AuthServiceImpl;
 import org.springframework.http.HttpStatus;

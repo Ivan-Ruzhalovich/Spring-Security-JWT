@@ -3,7 +3,6 @@ package com.example.springsecurityjwt.controller;
 import com.example.springsecurityjwt.entity.Product;
 import com.example.springsecurityjwt.models.RequestModel;
 import com.example.springsecurityjwt.repository.ProductRepository;
-import com.example.springsecurityjwt.repository.UserRepository;
 import com.example.springsecurityjwt.service.AdminServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -6,6 +6,7 @@ import com.example.springsecurityjwt.repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -52,27 +53,39 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public RequestModel singIn(RequestModel requestModel) {
+        return authenticate(requestModel);
+    }
+
+    private RequestModel authenticate(RequestModel requestModel) {
         RequestModel requestM = new RequestModel();
-        var user = userRepository.findByEmail(requestModel.getEmail()).orElseThrow();
+        OurUsers user = userRepository
+                .findByEmail(requestModel.getEmail())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Пользователь не найден"));
         try {
             authenticationManager
                     .authenticate(new UsernamePasswordAuthenticationToken(requestModel
                             .getEmail(), requestModel
                             .getPassword()));
-            var jwt = jwtUtils.generateToken(user);
-            var refreshJwt = jwtUtils.generateRefreshToken(new HashMap<>(), user);
-            user.setCounter(0);
-            userRepository.save(user);
-            requestM.setStatusCode(200);
-            requestM.setToken(jwt);
-            requestM.setRefreshToken(refreshJwt);
-            requestM.setMessage("Успешный вход");
-            requestM.setExpirationTime("1hr");
-        } catch (Exception e) {
-            analysis(user,requestM);
+
+        } catch (AuthenticationException e) {
+            if (e.getMessage().equals("Bad credentials"))
+                analysis(user, requestM);
+            if (e.getMessage().equals("User account is locked"))
+                throw new ResponseStatusException(HttpStatus.LOCKED,"Аккаунт заблокирован. Для разблокировки обратитесь к администратору!");
+            else throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Что то сломалось!");
         }
+        String jwt = jwtUtils.generateToken(user);
+        String refreshJwt = jwtUtils.generateRefreshToken(new HashMap<>(), user);
+        user.setCounter(0);
+        userRepository.save(user);
+        requestM.setStatusCode(200);
+        requestM.setToken(jwt);
+        requestM.setRefreshToken(refreshJwt);
+        requestM.setMessage("Успешный вход");
+        requestM.setExpirationTime("1hr");
         return requestM;
     }
+
 
     private void analysis (OurUsers user,RequestModel requestM){
         user.incrementCounter();

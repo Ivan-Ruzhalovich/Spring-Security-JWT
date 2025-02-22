@@ -21,6 +21,7 @@ public class JWTUtilsImpl implements JWTUtils{
     private final SecretKey Key;
 
     private static final long EXPIRATION_TIME = 3_600_000; // 1 hour
+//    private static final long EXPIRATION_TIME = 30_000; // 30 seconds
 
     public JWTUtilsImpl() {
         String secretString = "00738e58479a1903711de95f84684dee8fcb4588098957e0b16191e43adacc4f00" +
@@ -50,7 +51,7 @@ public class JWTUtilsImpl implements JWTUtils{
                 .claims(claims)
                 .subject(userDetails.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME)) //24 hours
+                .expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME * 24)) //24 hours
                 .signWith(Key)
                 .compact();
     }
@@ -77,7 +78,7 @@ public class JWTUtilsImpl implements JWTUtils{
     @Override
     public boolean isTokenExpiration(String token){
         boolean isTokenExpiration = extractClaims(token, Claims::getExpiration).before(new Date());
-        if (isTokenExpiration)
+        if (!isTokenExpiration)
             return extractClaims(token, Claims::getExpiration).before(new Date());
         else throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,"Закончился срок действия токена!");
     }

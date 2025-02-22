@@ -6,13 +6,11 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.security.SignatureException;
-
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ResponseStatusException.class)
-    public ResponseEntity<String> iAmATeapotExceptionHandler(ResponseStatusException e){
+    public ResponseEntity<String> ResponseStatusExceptionHandler(ResponseStatusException e){
         return new ResponseEntity<>(e.getMessage(),e.getStatusCode());
     }
 
